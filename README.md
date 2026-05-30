@@ -1,18 +1,21 @@
 # Live Score App
 
-A modern, real-time sports score tracking application built with Next.js 15, React, TypeScript, and Tailwind CSS. Features live scores, match schedules, and league standings for multiple sports.
+A modern, real-time sports score tracking application built with Next.js 15, React, TypeScript, and Tailwind CSS. Features live scores, match schedules, and league standings for football.
 
 ## Features
 
 - **Live Scores**: Real-time match scores and updates
-- **Multiple Sports**: Football (Soccer), Basketball, Tennis, Baseball, Hockey, and American Football
 - **Match Views**:
-  - Upcoming matches for the next 7-15 days
-  - Recent results from the last 7 days
+  - Upcoming matches for the next 7 days
+  - Recent results from the last 3 days
 - **League Standings**: View league tables for popular competitions
   - Premier League, La Liga, Bundesliga, Serie A, Ligue 1
-  - NBA, NFL, and more
-- **Auto-refresh**: Data automatically updates every 60 seconds
+  - Champions League, Europa League, Conference League
+  - Bulgarian Efbet League
+- **Team Details**: Click any team to see full statistics, fixtures, and standings
+- **Match Details**: Click matches to see comprehensive match information
+- **Smart Caching**: Reduces API calls with 5-minute local caching
+- **Auto-refresh**: Data automatically updates every 5 minutes
 - **Dark Theme**: Modern, eye-friendly dark UI
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
 
@@ -21,13 +24,14 @@ A modern, real-time sports score tracking application built with Next.js 15, Rea
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **API**: TheSportsDB API (https://www.thesportsdb.com/)
+- **API**: API-Football v3 (https://www.api-football.com/) - Free tier available
 
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js 18+ and npm installed
+- API-Football API key (free tier available)
 
 ### Installation
 
@@ -41,12 +45,28 @@ cd livescore-app
 npm install
 ```
 
-3. Run the development server:
+3. **Get your API-Football API Key** (FREE):
+   - Go to https://dashboard.api-football.com/register
+   - Sign up for a free account (no credit card required)
+   - Copy your API key from the dashboard
+   - Free tier includes: 100 requests/day with all endpoints
+
+4. **Set up environment variables**:
+   - Copy `.env.local.example` to `.env.local`:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+   - Edit `.env.local` and add your API key:
+   ```
+   NEXT_PUBLIC_API_FOOTBALL_KEY=your_api_key_here
+   ```
+
+5. Run the development server:
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to:
+6. Open your browser and navigate to:
 ```
 http://localhost:3000
 ```
@@ -73,51 +93,34 @@ livescore-app/
 
 ## API Information
 
-### Current API: TheSportsDB
-
-This app currently uses **TheSportsDB API**, a free public sports API.
+This app uses **API-Football v3** for comprehensive football data.
 
 **Features:**
-- Free tier available (no API key required)
-- 30+ sports supported
-- Match data, team info, league standings
-- 30 requests per minute limit
+- Real-time live scores
+- 15-second update frequency for live matches
+- Comprehensive statistics and detailed match information
+- Team lineups, events, and player statistics
+- 100 requests/day on free tier
+- All major leagues and tournaments including Champions League
 
 **API Base URL:**
 ```
-https://www.thesportsdb.com/api/v1/json/3
+https://v3.football.api-sports.io
 ```
 
-### Alternative: API-Football
+**Authentication:**
+Uses `x-apisports-key` header with your API key
 
-For more comprehensive football data, consider **API-Football** (https://www.api-football.com/):
-
-**Features:**
-- More detailed live scores and statistics
-- Real-time updates
-- Comprehensive player and team data
-- Better coverage of leagues worldwide
-
-**To Switch to API-Football:**
-
-1. Get an API key from https://www.api-football.com/
-2. Update `lib/api.ts` with the new API base URL and endpoints
-3. Add your API key to environment variables:
-
-```env
-NEXT_PUBLIC_FOOTBALL_API_KEY=your_api_key_here
-```
-
-4. Modify API calls to include authentication headers:
-
-```typescript
-const response = await fetch(url, {
-  headers: {
-    'x-rapidapi-key': process.env.NEXT_PUBLIC_FOOTBALL_API_KEY,
-    'x-rapidapi-host': 'api-football-v1.p.rapidapi.com'
-  }
-});
-```
+**Supported Leagues:**
+- English Premier League (ID: 39)
+- Spanish La Liga (ID: 140)
+- German Bundesliga (ID: 78)
+- Italian Serie A (ID: 135)
+- French Ligue 1 (ID: 61)
+- UEFA Champions League (ID: 2)
+- UEFA Europa League (ID: 3)
+- UEFA Conference League (ID: 848)
+- Bulgarian First League (ID: 172)
 
 ## Usage
 
@@ -181,8 +184,12 @@ The easiest way to deploy is using the [Vercel Platform](https://vercel.com/new)
 
 1. Push your code to GitHub
 2. Import the repository in Vercel
-3. Deploy with one click
-4. If using API-Football, add your API key in Vercel environment variables
+3. Add environment variable:
+   - Go to Project Settings → Environment Variables
+   - Add: `NEXT_PUBLIC_API_FOOTBALL_KEY` = your API key
+4. Deploy with one click
+
+**Important**: Make sure to add your API-Football key to Vercel's environment variables before deploying!
 
 ## Future Enhancements
 
@@ -199,10 +206,10 @@ Open source for educational and personal use.
 
 ## Acknowledgments
 
-- Sports data provided by [TheSportsDB](https://www.thesportsdb.com/)
+- Sports data provided by [API-Football](https://www.api-football.com/)
 - Built with [Next.js](https://nextjs.org/)
 - Styled with [Tailwind CSS](https://tailwindcss.com/)
 
 ---
 
-**Note**: This app uses a free public API. For production use with high traffic, consider upgrading to a paid tier or using API-Football for more comprehensive data.
+**Note**: This app uses API-Football's free tier (100 requests/day). For production use with high traffic or more than 100 requests per day, consider upgrading to a paid plan at https://www.api-football.com/pricing

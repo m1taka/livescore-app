@@ -10,6 +10,7 @@ interface TeamDetailModalProps {
   teamName: string;
   teamBadge?: string;
   leagueId?: string;
+  teamId?: string;
   onClose: () => void;
 }
 
@@ -29,7 +30,7 @@ interface TeamInfo {
   intFormedYear?: string;
 }
 
-export default function TeamDetailModal({ teamName, teamBadge, leagueId, onClose }: TeamDetailModalProps) {
+export default function TeamDetailModal({ teamName, teamBadge, leagueId, teamId, onClose }: TeamDetailModalProps) {
   const [teamInfo, setTeamInfo] = useState<TeamInfo | null>(null);
   const [nextFixtures, setNextFixtures] = useState<Match[]>([]);
   const [lastResults, setLastResults] = useState<Match[]>([]);
@@ -41,7 +42,9 @@ export default function TeamDetailModal({ teamName, teamBadge, leagueId, onClose
       setLoading(true);
       try {
         // Search for team
-        const team = await sportsApi.searchTeam(teamName);
+        const team = teamId
+          ? await sportsApi.lookupTeam(teamId)
+          : await sportsApi.searchTeam(teamName);
 
         if (team) {
           setTeamInfo(team);
@@ -72,7 +75,7 @@ export default function TeamDetailModal({ teamName, teamBadge, leagueId, onClose
     };
 
     fetchTeamData();
-  }, [teamName, leagueId]);
+  }, [teamName, teamId, leagueId]);
 
   if (loading) {
     return (

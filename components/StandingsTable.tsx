@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 interface StandingsTableProps {
   standings: Standing[];
-  onTeamClick?: (teamName: string, teamBadge?: string, leagueId?: string) => void;
+  onTeamClick?: (teamName: string, teamBadge?: string, leagueId?: string, teamId?: string) => void;
 }
 
 export default function StandingsTable({ standings, onTeamClick }: StandingsTableProps) {
@@ -85,7 +85,7 @@ export default function StandingsTable({ standings, onTeamClick }: StandingsTabl
                     className="flex items-center space-x-3 cursor-pointer hover:text-blue-400 transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onTeamClick?.(team.strTeam, team.strTeamBadge, team.idLeague);
+                      onTeamClick?.(team.strTeam, team.strTeamBadge, team.idLeague, team.idTeam);
                     }}
                   >
                     {team.strTeamBadge && (

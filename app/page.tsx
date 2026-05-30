@@ -49,7 +49,7 @@ export default function Home() {
   const [selectedSeason, setSelectedSeason] = useState('2025-2026');
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [selectedMatchId, setSelectedMatchId] = useState<string | null>(null);
-  const [selectedTeam, setSelectedTeam] = useState<{ name: string; badge?: string; leagueId?: string } | null>(null);
+  const [selectedTeam, setSelectedTeam] = useState<{ name: string; badge?: string; leagueId?: string; teamId?: string } | null>(null);
 
   useEffect(() => {
     if (viewMode === 'matches') {
@@ -265,7 +265,6 @@ export default function Home() {
                   key={match.idEvent}
                   match={match}
                   onClick={() => setSelectedMatchId(match.idEvent)}
-                  onTeamClick={(name, badge, leagueId) => setSelectedTeam({ name, badge, leagueId })}
                 />
               ))}
             </div>
@@ -295,7 +294,7 @@ export default function Home() {
         ) : (
           <StandingsTable
             standings={standings}
-            onTeamClick={(name, badge, leagueId) => setSelectedTeam({ name, badge, leagueId })}
+            onTeamClick={(name, badge, leagueId, teamId) => setSelectedTeam({ name, badge, leagueId, teamId })}
           />
         )}
       </main>
@@ -314,9 +313,9 @@ export default function Home() {
         <MatchDetailModal
           matchId={selectedMatchId}
           onClose={() => setSelectedMatchId(null)}
-          onTeamClick={(name, badge, leagueId) => {
+          onTeamClick={(name, badge, leagueId, teamId) => {
             setSelectedMatchId(null);
-            setSelectedTeam({ name, badge, leagueId });
+            setSelectedTeam({ name, badge, leagueId, teamId });
           }}
         />
       )}
@@ -327,6 +326,7 @@ export default function Home() {
           teamName={selectedTeam.name}
           teamBadge={selectedTeam.badge}
           leagueId={selectedTeam.leagueId}
+          teamId={selectedTeam.teamId}
           onClose={() => setSelectedTeam(null)}
         />
       )}

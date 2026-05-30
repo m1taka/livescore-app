@@ -4,10 +4,9 @@ import Image from 'next/image';
 interface MatchCardProps {
   match: Match;
   onClick?: () => void;
-  onTeamClick?: (teamName: string, teamBadge?: string, leagueId?: string) => void;
 }
 
-export default function MatchCard({ match, onClick, onTeamClick }: MatchCardProps) {
+export default function MatchCard({ match, onClick }: MatchCardProps) {
   const isFinished = match.intHomeScore !== null && match.intAwayScore !== null;
   const matchDate = new Date(match.dateEvent);
   const today = new Date();
@@ -61,13 +60,7 @@ export default function MatchCard({ match, onClick, onTeamClick }: MatchCardProp
       <div className="space-y-3">
         {/* Home Team */}
         <div className="flex items-center justify-between">
-          <div
-            className="flex items-center space-x-3 flex-1 cursor-pointer hover:text-blue-400 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              onTeamClick?.(match.strHomeTeam, match.strHomeTeamBadge, match.idLeague);
-            }}
-          >
+          <div className="flex items-center space-x-3 flex-1">
             {match.strHomeTeamBadge && (
               <div className="relative w-8 h-8 flex-shrink-0">
                 <Image
@@ -89,13 +82,7 @@ export default function MatchCard({ match, onClick, onTeamClick }: MatchCardProp
 
         {/* Away Team */}
         <div className="flex items-center justify-between">
-          <div
-            className="flex items-center space-x-3 flex-1 cursor-pointer hover:text-blue-400 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              onTeamClick?.(match.strAwayTeam, match.strAwayTeamBadge, match.idLeague);
-            }}
-          >
+          <div className="flex items-center space-x-3 flex-1">
             {match.strAwayTeamBadge && (
               <div className="relative w-8 h-8 flex-shrink-0">
                 <Image

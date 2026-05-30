@@ -9,7 +9,7 @@ import Loading from './Loading';
 interface MatchDetailModalProps {
   matchId: string;
   onClose: () => void;
-  onTeamClick?: (teamName: string, teamBadge?: string, leagueId?: string) => void;
+  onTeamClick?: (teamName: string, teamBadge?: string, leagueId?: string, teamId?: string) => void;
 }
 
 export default function MatchDetailModal({ matchId, onClose, onTeamClick }: MatchDetailModalProps) {
@@ -105,7 +105,7 @@ export default function MatchDetailModal({ matchId, onClose, onTeamClick }: Matc
                 className="text-xl font-bold text-white cursor-pointer hover:text-blue-400 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onTeamClick?.(match.strHomeTeam, match.strHomeTeamBadge, match.idLeague);
+                  onTeamClick?.(match.strHomeTeam, match.strHomeTeamBadge, match.idLeague, match.idHomeTeam);
                 }}
               >
                 {match.strHomeTeam}
@@ -142,7 +142,7 @@ export default function MatchDetailModal({ matchId, onClose, onTeamClick }: Matc
                 className="text-xl font-bold text-white cursor-pointer hover:text-blue-400 transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onTeamClick?.(match.strAwayTeam, match.strAwayTeamBadge, match.idLeague);
+                  onTeamClick?.(match.strAwayTeam, match.strAwayTeamBadge, match.idLeague, match.idAwayTeam);
                 }}
               >
                 {match.strAwayTeam}

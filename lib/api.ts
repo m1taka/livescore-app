@@ -295,5 +295,17 @@ export const sportsApi = {
       console.error('Error fetching last team results:', error);
       return [];
     }
+  },
+
+  // Lookup team by ID (more reliable than search)
+  lookupTeam: async (teamId: string): Promise<any | null> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/lookupteam.php?id=${teamId}`, { cache: 'no-store' });
+      const data = await response.json();
+      return data.teams && data.teams.length > 0 ? data.teams[0] : null;
+    } catch (error) {
+      console.error('Error looking up team:', error);
+      return null;
+    }
   }
 };

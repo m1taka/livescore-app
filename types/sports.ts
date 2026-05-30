@@ -17,6 +17,8 @@ export interface Match {
   strVideo?: string;
   strHomeTeamBadge?: string;
   strAwayTeamBadge?: string;
+  idHomeTeam?: string;
+  idAwayTeam?: string;
   strVenue?: string;
   strCountry?: string;
   strCity?: string;
